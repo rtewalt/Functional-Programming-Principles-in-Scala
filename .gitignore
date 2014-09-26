@@ -1,0 +1,7 @@
+.DS_Store
+.metadata
+*.zip
+**/target/*
+**/.settings/*
+*.jar
+*.class
