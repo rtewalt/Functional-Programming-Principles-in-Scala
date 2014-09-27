@@ -4,9 +4,9 @@ import org.scalatest.FunSuite
 
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-//import scala.concurrent._
-//import scala.concurrent.duration._
-//import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent._
+import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
  * This class is a test suite for the methods in object FunSets. To run
@@ -177,35 +177,4 @@ class FunSetSuite extends FunSuite {
       assert(!contains(twiceAll, 3))
     }
   }
-
-//  test("exists calls forall") {
-//
-//    new TestSets {
-//
-//      val forAllPromise = promise[String]
-//      val forAllPromiseFuture = forAllPromise.future
-//
-//      trait FunSets2  {
-//        def forall(s: Set, p: Int => Boolean): Boolean = {
-//          forAllPromise success "forall called"
-//          true
-//        }
-//      }
-//      
-//      object FunSets extends FunSets2
-//      
-//      import FunSets._
-//      
-//      val producer = future {
-//
-//        exists(s1, (x: Int) => true)
-//      }
-//
-//      forAllPromiseFuture onSuccess {
-//        case str => assert(true)
-//      }
-//
-//      Await.result(forAllPromiseFuture, 100 millis)
-//    }
-//  }
 }
