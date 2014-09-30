@@ -1,10 +1,10 @@
 .DS_Store
 .metadata
 *.zip
-**/target/*
-**/.settings/*
+target
+.settings
 *.jar
 *.class
-**/.cache
+.cache
 **/bin/*
 **/.worksheet/*
