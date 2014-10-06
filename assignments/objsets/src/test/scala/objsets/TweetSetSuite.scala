@@ -61,6 +61,13 @@ class TweetSetSuite extends FunSuite {
       assert(size(set1.union(set5)) === 4)
     }
   }
+  
+   test("mostRetweets: set5") {
+    new TestSets {
+      val popTweet = set5.mostRetweeted
+      assert(popTweet.retweets === 20)
+    }
+  }
 
   test("descending: set5") {
     new TestSets {
