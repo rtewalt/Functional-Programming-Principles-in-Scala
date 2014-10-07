@@ -144,9 +144,7 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   }
 
   def union(that: TweetSet): TweetSet = {
-    val unionLeft = that.union(left)
-    val unionBoth = unionLeft.union(right)
-    unionBoth.incl(elem)
+    right.union(left.union(that.incl(elem)))
   }
 
   def mostRetweeted: Tweet = {
@@ -226,15 +224,17 @@ class Cons(val head: Tweet, val tail: TweetList) extends TweetList {
 object GoogleVsApple {
   val google = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
   val apple = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
+  
+  def filterPredicate(wordList: List[String]) = (tweet:Tweet) => google.exists(word => tweet.text.contains(word) )
 
-  lazy val googleTweets: TweetSet = ???
-  lazy val appleTweets: TweetSet = ???
+  lazy val googleTweets: TweetSet = TweetReader.allTweets.filter(filterPredicate(google))
+  lazy val appleTweets: TweetSet = TweetReader.allTweets.filter(filterPredicate(apple))
 
   /**
    * A list of all tweets mentioning a keyword from either apple or google,
    * sorted by the number of retweets.
    */
-  lazy val trending: TweetList = ???
+  lazy val trending: TweetList = (googleTweets union appleTweets).descendingByRetweet
 }
 
 object Main extends App {

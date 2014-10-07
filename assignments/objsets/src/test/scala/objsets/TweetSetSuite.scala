@@ -61,8 +61,8 @@ class TweetSetSuite extends FunSuite {
       assert(size(set1.union(set5)) === 4)
     }
   }
-  
-   test("mostRetweets: set5") {
+
+  test("mostRetweets: set5") {
     new TestSets {
       val popTweet = set5.mostRetweeted
       assert(popTweet.retweets === 20)
@@ -76,4 +76,13 @@ class TweetSetSuite extends FunSuite {
       assert(trends.head.user == "a" || trends.head.user == "b")
     }
   }
+
+  test("filter 321 retweets") {
+    assert(!TweetReader.allTweets.filter(tweet => tweet.retweets == 321).isEmpty)
+  }
+
+  test("filter/union 321 and 205 retweets") {
+    assert(!(TweetReader.allTweets.filter(tweet => tweet.retweets == 321) union TweetReader.allTweets.filter(tweet => tweet.retweets == 205)).isEmpty)
+  }
+
 }
