@@ -50,15 +50,41 @@ class HuffmanSuite extends FunSuite {
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
     assert(until(singleton, combine)(leaflist) === List(Fork(Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3), Leaf('x', 4), List('e', 't', 'x'), 7)))
   }
-  
+
   test("createCodeTree") {
     val stringChars = string2Chars("xtxtxex")
     assert(createCodeTree(stringChars) === Fork(Fork(Leaf('e', 1), Leaf('t', 2), List('e', 't'), 3), Leaf('x', 4), List('e', 't', 'x'), 7))
   }
 
+  test("decodeSecret") {
+    new TestTrees {
+      assert(decodedSecret === "huffmanestcool".toList)
+      assert(encode(frenchCode)(decodedSecret) === secret)
+    }
+  }
+
   test("decode and encode a very short text should be identity") {
     new TestTrees {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
+    }
+  }
+
+  test("convert") {
+    new TestTrees {
+      assert(convert(t1) === List(('a', List(0)), ('b', List(1))))
+      assert(convert(t2) === List(('a', List(0, 0)), ('b', List(0, 1)), ('d', List(1))))
+    }
+  }
+
+  test("quickSecret") {
+    new TestTrees {
+      assert(quickEncode(frenchCode)(decodedSecret) === secret)
+    }
+  }
+
+  test("decode and quickEncode a very short text should be identity") {
+    new TestTrees {
+      assert(decode(t1, quickEncode(t1)("ab".toList)) === "ab".toList)
     }
   }
 }
