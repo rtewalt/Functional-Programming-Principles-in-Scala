@@ -37,13 +37,36 @@ object arrayWS {
   def scalarProduct(xs: Vector[Double], ys: Vector[Double]): Double =
     (xs zip ys).map { case (x, y) => x * y }.sum  //> scalarProduct: (xs: Vector[Double], ys: Vector[Double])Double
 
+  def scalarProduct2(xs: Vector[Double], ys: Vector[Double]): Double =
+    (for ((x, y) <- xs zip ys) yield x * y).sum   //> scalarProduct2: (xs: Vector[Double], ys: Vector[Double])Double
+
   scalarProduct(Vector(1, 2, 3), Vector(1, 2, 3)) //> res7: Double = 14.0
+  scalarProduct2(Vector(1, 2, 3), Vector(1, 2, 3))//> res8: Double = 14.0
 
   def isPrime(n: Int): Boolean = (2 until n).forall(i => n % i != 0)
                                                   //> isPrime: (n: Int)Boolean
 
-  (1 to 100) filter (isPrime(_))                  //> res8: scala.collection.immutable.IndexedSeq[Int] = Vector(1, 2, 3, 5, 7, 11,
+  (1 to 100) filter (isPrime(_))                  //> res9: scala.collection.immutable.IndexedSeq[Int] = Vector(1, 2, 3, 5, 7, 11,
                                                   //|  13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89,
                                                   //|  97)
 
+  def findPairs(n: Int): Seq[Pair[Int, Int]] =
+    (1 until n).flatMap(i =>
+      (1 until i).map(j =>
+        (i, j))).filter {
+      case (i, j) =>
+        isPrime(i + j)
+    }                                             //> findPairs: (n: Int)Seq[(Int, Int)]
+
+  def findPairs2(n: Int): Seq[Pair[Int, Int]] =
+    for {
+      i <- (1 until n)
+      j <- (1 until i)
+      if isPrime(i + j)
+    } yield (i, j)                                //> findPairs2: (n: Int)Seq[(Int, Int)]
+
+  findPairs(7)                                    //> res10: Seq[(Int, Int)] = Vector((2,1), (3,2), (4,1), (4,3), (5,2), (6,1), (
+                                                  //| 6,5))
+  findPairs2(7)                                   //> res11: Seq[(Int, Int)] = Vector((2,1), (3,2), (4,1), (4,3), (5,2), (6,1), (
+                                                  //| 6,5))
 }
