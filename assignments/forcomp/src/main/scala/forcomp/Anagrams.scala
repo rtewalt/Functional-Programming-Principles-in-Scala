@@ -120,17 +120,10 @@ object Anagrams {
    *  and has no zero-entries.
    */
   def subtract(x: Occurrences, y: Occurrences): Occurrences = {
-    
     y.foldLeft(x.toMap) ({
       case (accum, (c, count)) =>
         accum.updated(c, accum(c) - count)
     }).toList filter { case (c, count) => count > 0 } sortBy { case (c, count) => c }
-
-    //    val discountedLetters = discounted.map { case (c, count) => c }
-    //
-    //    val others = x filter { case (c, count) => !discountedLetters.contains(c) }
-    //
-    //    (others ::: discounted.toList) filter { case (c, count) => count > 0 } sortBy { case (c, count) => c }
   }
 
   /**
