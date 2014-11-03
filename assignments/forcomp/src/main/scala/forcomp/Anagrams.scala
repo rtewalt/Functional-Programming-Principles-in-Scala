@@ -97,15 +97,22 @@ object Anagrams {
    *  in the example above could have been displayed in some other order.
    */
   def combinations(occurrences: Occurrences): List[Occurrences] = {
-    val allOccs = for {
+    def _combinations(occurrences: Occurrences):List[Occurrences] = occurrences match {
+      case List() => List(Nil)
+      case (thisC, thisCount) :: tailOccs => {
+        val subCombos = _combinations(tailOccs)
+        subCombos ::: (subCombos filter{subOcc => 
+          !subOcc.groupBy{case (c, count) => c}.contains(thisC)
+        } map(subOcc => (thisC, thisCount) :: subOcc))
+      }
+    }
+    
+    val allOccs: Occurrences = for {
       (c, count) <- occurrences
-      cIter <- (0 to count)
+      cIter <- (1 to count)
     } yield (c, cIter)
 
-    val allPermutations = allOccs.combinations(occurrences.size).toList
-    val nonDupPerms = allPermutations filter (perm => (perm groupBy { case (c, count) => c } toList).forall { case (c, occs) => occs.size == 1 })
-
-    nonDupPerms map (perms => perms filter { case (c, count) => count > 0 })
+    _combinations(allOccs)
   }
 
   /**
